@@ -8,7 +8,7 @@ class PremiosAdmin(admin.ModelAdmin):
     list_display = ["nombre","descripcion","imagen","rifas"]
 
 class VentaAdmin(admin.ModelAdmin):
-    list_display= ["nombre","email","telefono","numero_compra","codigo"]
+    list_display= ["nombre","participante_id", "numero_compra","codigo"]
 
 class participanteAdmin(admin.ModelAdmin):
     list_display = ["id","nombre","email","winner"]

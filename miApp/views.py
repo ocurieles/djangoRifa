@@ -34,15 +34,23 @@ def comprar(self, id):
             rifas.numeros_vendidos += cantidad
             rifas.save()
 
+            # search the person
+
+            participante = Participante.objects.get(nombre=form.cleaned_data['nombre'])
+            if not participante:
+                participante = Participante()
+                participante.nombre = form.cleaned_data['nombre']
+                participante.email = form.cleaned_data['email']
+                participante.telefono = form.cleaned_data['telefono']
+                participante.save()
+
             venta = Venta()
             venta.rifas = rifas
-            venta.nombre = form.cleaned_data['nombre']
-            venta.email = form.cleaned_data['email']
-            venta.telefono = form.cleaned_data['telefono']
+            venta.participante_id = participante
             venta.numero_compra = form.cleaned_data['numero_compra']
             venta.codigo = form.cleaned_data['codigo']
-
             venta.save()
+
             return redirect('/ticket/' + str(venta.id))
 
     try:
@@ -52,8 +60,9 @@ def comprar(self, id):
                 }
         return render(self, 'comprar.html', data)
     except:
-        raise UserWarning("Error, Rifa no existe")
-
+        data = {'venta': False,
+                'form': form}
+        return render(self, 'comprar.html', data)
 
 def detalle_premio(self, rifas_id):
     try:
@@ -69,10 +78,19 @@ def detalle_premio(self, rifas_id):
 
 
 def sorteo(request):
-    participantes = Participante.objects.all()
 
-    ganadores = participantes.filter(winner=True)
+    ventas = Venta.objects.get()
 
-    data = {'participantes': participantes, 'ganadores': ganadores}
+    total_venta = len(ventas)
+
+    number = random.randrange(0, total_venta)
+
+    for venta in ventas:
+        if venta.numero_compra == number:
+            venta.participante_id.winner = True
+
+    ganadores = venta.participante_id.filter(winner=True)
+
+    data = {'participantes': venta.participante_id, 'ganadores': ganadores}
 
     return render(request, 'Sorteo.html', data)
