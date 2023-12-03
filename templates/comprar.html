@@ -1,0 +1,72 @@
+  <!doctype html>
+  {% load static %}
+  <html lang="en">
+
+  <head>
+    <title>Club de Rifas</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  </head>
+
+  <body class='container mt-2  '>
+    <header>
+      <div class="mt-2 text-center">
+      <img src="{% static "images/logo.png" %}" class="img-fluid rounded-top  " alt="">
+      </div>
+    </header>
+    <main>
+      
+      <div class="row justify-content-center align-items-top g-2">
+        <div class="col-4">
+          <img src="/media/{{rifas.imagen}}" class="img-fluid">
+
+          <p>
+              <b>
+              <br>{{rifas.fecha_inicio}} , {{rifas.fecha_termino}}
+              </b>
+        </div>
+        <div class="col">
+          <h1 class="display-4">{{rifas.nombre}}</h1>
+
+          <form method="POST">
+            {% csrf_token %}
+            <strong> Numeros disponibles: {{ rifas.numeros_disponibles }}</strong>
+            {{ form.as_p }}
+            
+            <a class="btn btn-danger" href="/" role="button">Cancelar</a>
+            <button type="submit" class="btn text-white float-end" style="background-color: #7123D0">Comprar</button>
+        </form>
+    
+
+
+        </div>
+        
+      </div>
+
+
+
+      
+        
+    </main>
+    <footer>
+    
+    </footer>
+    <div class="alert alert-dark text-center mt-5" role="alert">
+      <strong>Todos los derechos reservados 2023</strong>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  </body>
+
+  </html>
