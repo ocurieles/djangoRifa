@@ -9,12 +9,11 @@ from django.views.static import serve
 from miApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.Index,),
+    path('', views.Index,),
     path('comprar/<int:id>', views.comprar, name='comprar'),
-    path('ticket/<int:id>', views.comprar, name='ticket'),
+    path('ticket/<int:id>', views.Ticket, name='ticket'),
     path('detallepremio/<int:rifas_id>/', views.detalle_premio, name='detalle_premio'),
     path('sorteo/', views.sorteo, name='sorteo'),
-
 ]
 
 if settings.DEBUG:

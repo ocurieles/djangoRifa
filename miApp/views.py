@@ -14,12 +14,18 @@ def Index(req):
     return render(req, "Index.html", data)
 
 
-def comprar(req, id):
+def Ticket(self, id):
+    venta = Venta.objects.get(id=id)
+    data = {'venta': venta}
+    return render(self, "ticket.html", data)
+
+
+def comprar(self, id):
     form = FormVenta()
     form.fields['id_rifa'].initial = id
 
-    if req.method == 'POST':
-        form = FormVenta(req.POST)
+    if self.method == 'POST':
+        form = FormVenta(self.POST)
         if form.is_valid():
             rifas = Rifas.objects.get(id=id)
 
@@ -37,24 +43,24 @@ def comprar(req, id):
             venta.codigo = form.cleaned_data['codigo']
 
             venta.save()
-            return redirect('/ticket/' + str(rifas.id))
+            return redirect('/ticket/' + str(venta.id))
 
     try:
-        rifas = Rifas.objects.get(id=id)
-        data = {'rifas': rifas,
+        venta = Venta.objects.get(id=id)
+        data = {'venta': venta,
                 'form': form
                 }
-        return render(req, 'comprar.html', data)
+        return render(self, 'comprar.html', data)
     except:
         raise UserWarning("Error, Rifa no existe")
 
 
-def detalle_premio(req, rifas_id):
+def detalle_premio(self, rifas_id):
     try:
         rifas = get_object_or_404(Rifas, id=rifas_id)
         premios = Premios.objects.filter(rifas=rifas)
         data = {'premio': premios, 'rifas': rifas}
-        return render(req, 'Premios.html', data)
+        return render(self, 'Premios.html', data)
 
     except Rifas.DoesNotExist:
         raise Http404("No existe la rifa con el ID proporcionado")
